@@ -43,10 +43,10 @@ public class login extends javax.swing.JFrame {
         setTitle("Petz : Resque and Adopt");
         setResizable(false);
 
-        jPanel1.setBackground(new java.awt.Color(104, 78, 255));
+        jPanel1.setBackground(new java.awt.Color(29, 32, 47));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 48)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setForeground(new java.awt.Color(244, 191, 33));
         jLabel1.setText("PETZ");
 
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -58,9 +58,10 @@ public class login extends javax.swing.JFrame {
         jLabel3.setText("Silahkan login kedalam sistem..");
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setLabelFor(username_field);
         jLabel4.setText("Username");
 
-        username_field.setBackground(new java.awt.Color(104, 78, 255));
+        username_field.setBackground(new java.awt.Color(29, 32, 47));
         username_field.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         username_field.setForeground(new java.awt.Color(255, 255, 255));
         username_field.setToolTipText("");
@@ -68,18 +69,21 @@ public class login extends javax.swing.JFrame {
         username_field.setCaretColor(new java.awt.Color(255, 255, 255));
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setLabelFor(password_field);
         jLabel5.setText("Password");
 
-        password_field.setBackground(new java.awt.Color(104, 78, 255));
+        password_field.setBackground(new java.awt.Color(29, 32, 47));
         password_field.setFont(new java.awt.Font("Dialog", 0, 24)); // NOI18N
         password_field.setForeground(new java.awt.Color(255, 255, 255));
         password_field.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
         password_field.setCaretColor(new java.awt.Color(255, 255, 255));
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setBackground(new java.awt.Color(244, 191, 33));
         jButton1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(104, 78, 255));
+        jButton1.setForeground(new java.awt.Color(29, 32, 47));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/action/ic_input_black_18dp.png"))); // NOI18N
         jButton1.setText("MASUK");
+        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -157,8 +161,7 @@ public class login extends javax.swing.JFrame {
             rs = stat.executeQuery(sql);
             if(rs.next()){
                 if(username_field.getText().equals(rs.getString("username")) && password_field.getText().equals(rs.getString("password"))){
-                    JOptionPane.showMessageDialog(null, "berhasil login");
-                    
+                                        
                     //menampilkan form selanjutnya
                     MainAdmin form = new MainAdmin();
                     form.show();
