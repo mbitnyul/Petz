@@ -45,7 +45,6 @@ public class MainOwner extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(244, 191, 33));
-        jLabel3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Rizkytsun\\Downloads\\2x\\baseline_pets_white_18dp.png")); // NOI18N
         jLabel3.setText("HALAMAN OWNER");
 
         jButton3.setBackground(new java.awt.Color(29, 32, 47));
