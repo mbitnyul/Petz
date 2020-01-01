@@ -1,6 +1,7 @@
+import java.awt.HeadlessException;
 import java.sql.*;
 import javax.swing.JOptionPane;
-import sql.Koneksi;
+import sql.DB;
 
 /**
  *
@@ -17,10 +18,10 @@ public class login extends javax.swing.JFrame {
         initComponents();
         
         // ambil koneksi
-        Koneksi DB = new Koneksi();
-        DB.config();
+        DB DB = new DB();
+        DB.Connect();
         con = DB.con;
-        stat = DB.stm;
+        stat = DB.stmt;
         // ambil koneksi
     }
 
@@ -185,10 +186,12 @@ public class login extends javax.swing.JFrame {
                     form.show();
                     this.dispose();
                 }
+                con.close();
+                stat.close();
             }else{
                 JOptionPane.showMessageDialog(null, "username atau password salah");
             }
-        } catch (Exception e) {
+        } catch (HeadlessException | SQLException e) {
             JOptionPane.showMessageDialog(this, "Login gagal : " + e.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
