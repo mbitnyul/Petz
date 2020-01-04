@@ -8,7 +8,6 @@ public class MainAdmin extends javax.swing.JFrame {
     Connection con;
     Statement stat;
     ResultSet rs;
-    String sql;
     
     int idSelectedRow;
     String idKeyOfSelectedRow;
@@ -84,6 +83,11 @@ public class MainAdmin extends javax.swing.JFrame {
         jButton1.setBackground(new java.awt.Color(244, 191, 33));
         jButton1.setText("Edit Data");
         jButton1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(244, 191, 33));
         jButton3.setText("Tambah Data");
@@ -400,6 +404,22 @@ public class MainAdmin extends javax.swing.JFrame {
         
         getData();
     }//GEN-LAST:event_jButton4MouseClicked
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        DB DB = new DB();
+        
+        String[] fields = {"name_tag","ras","umur","warna","keterangan"};
+        String[] values = {
+            "'"+txtNameTag.getText()+"'",
+            txtRasHewan.getText(),
+            txtUmurHewan.getText(),
+            txtWarnaHewan.getText(),
+            "'"+txtKondisiHewan.getText()+"'"
+        };
+        DB.DataUpdate("hewan", fields, values, "id", idKeyOfSelectedRow);
+        
+        getData();
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
