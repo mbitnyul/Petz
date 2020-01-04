@@ -23,7 +23,7 @@ public class login extends javax.swing.JFrame {
         con = DB.con;
         stat = DB.stmt;
         // ambil koneksi
-    }
+    }   
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
