@@ -57,7 +57,7 @@ public class MainAdmin extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         txtWarnaHewan = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        cmbStatusHewan = new javax.swing.JComboBox<>();
+        cmbStatusHewan = new javax.swing.JComboBox<String>();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
@@ -92,6 +92,11 @@ public class MainAdmin extends javax.swing.JFrame {
         jButton3.setBackground(new java.awt.Color(244, 191, 33));
         jButton3.setText("Tambah Data");
         jButton3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Jenis Hewan");
@@ -225,7 +230,7 @@ public class MainAdmin extends javax.swing.JFrame {
 
         cmbStatusHewan.setBackground(new java.awt.Color(29, 32, 47));
         cmbStatusHewan.setForeground(new java.awt.Color(255, 255, 255));
-        cmbStatusHewan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbStatusHewan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbStatusHewan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -432,6 +437,28 @@ public class MainAdmin extends javax.swing.JFrame {
         login frame = new login();
         frame.show();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        DB DB = new DB();
+        
+        String[] fields = {
+            "name_tag",
+            "ras",
+            "umur",
+            "warna",
+            "status",
+            "keterangan"
+        };
+        String[] values = {
+            "'"+txtNameTag.getText()+"'",
+            ""+txtRasHewan.getText()+"",
+            ""+txtUmurHewan.getText()+"",
+            ""+txtWarnaHewan.getText()+"",
+            "1",
+            "'"+txtKondisiHewan.getText()+"'"
+        };
+        DB.DataAdd("hewan", fields, values, idKeyOfSelectedRow);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
