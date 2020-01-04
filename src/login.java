@@ -16,13 +16,6 @@ public class login extends javax.swing.JFrame {
     
     public login() {
         initComponents();
-        
-        // ambil koneksi
-        DB DB = new DB();
-        DB.Connect();
-        con = DB.con;
-        stat = DB.stmt;
-        // ambil koneksi
     }   
 
     @SuppressWarnings("unchecked")
@@ -176,15 +169,43 @@ public class login extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
+            DB DB = new DB();
+            DB.Connect();
+            con = DB.con;
+            stat = DB.stmt; 
+        
             sql = "SELECT * FROM login WHERE username='"+username_field.getText()+"' AND password='"+password_field.getText()+"'";
             rs = stat.executeQuery(sql);
             if(rs.next()){
                 if(username_field.getText().equals(rs.getString("username")) && password_field.getText().equals(rs.getString("password"))){
-                                        
+                    
                     //menampilkan form selanjutnya
-                    MainAdmin form = new MainAdmin();
-                    form.show();
-                    this.dispose();
+                    switch (rs.getString("akses")) {
+                        case "1":
+                            {
+                                MainOwner form = new MainOwner();
+                                form.show();
+                                this.dispose();
+                                break;
+                            }
+                        case "2":
+                            {
+                                MainAdmin form = new MainAdmin();
+                                form.show();
+                                this.dispose();
+                                break;
+                            }
+                        case "3":
+                            {
+                                MainAdmin form = new MainAdmin();
+                                form.show();
+                                this.dispose();
+                                break;
+                            }
+                        default:
+                            break;
+                    }
+                    System.out.println("hi");
                 }
                 con.close();
                 stat.close();
