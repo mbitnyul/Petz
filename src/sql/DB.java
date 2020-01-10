@@ -51,7 +51,7 @@ public class DB {
         }
     }
     
-    public void DataGet(javax.swing.JTable JTableName, String table, String[] getColumn){
+    public void DataGet(javax.swing.JTable JTableName, String table, String[] getColumn, String[] whereClauses, String[] whereOperators, String[] whereValues){
         DefaultTableModel model = new DefaultTableModel();
         JTableName.setModel(model);
             
@@ -65,6 +65,15 @@ public class DB {
             Connect();
             Statement stm = con.createStatement();
             String query = "SELECT * FROM "+table;
+            
+            if(whereClauses.length != 0){
+                query += " WHERE ";
+                for (int i = 0; i < whereClauses.length; i++) {
+                    if(i == whereClauses.length-1) query += whereClauses[i]+" "+whereOperators[i]+" "+whereValues[i];
+                    else query += whereClauses[i]+" = "+whereValues[i]+" AND ";
+                }
+            }
+            
             ResultSet result = stm.executeQuery(query);
 
             while(result.next()){

@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.Arrays;
+import javax.swing.JOptionPane;
 import sql.DB;
 
 public class MainAdmin extends javax.swing.JFrame {
@@ -14,14 +15,17 @@ public class MainAdmin extends javax.swing.JFrame {
     
     public MainAdmin() {
         initComponents();
-        getData();
+        String[] whereClauses = {};
+        String[] whereValues = {};
+        String[] whereOperators = {};
+        getData(whereClauses, whereOperators, whereValues);
     }
     
-    final void getData(){
+    final void getData(String[] whereClauses, String[] whereOperators, String[] whereValues){
         DB DB = new DB();
         
         String[] getColumns = {"id","name_tag","status","ras"};
-        DB.DataGet(jTable1, "hewan", getColumns);
+        DB.DataGet(jTable1, "hewan", getColumns, whereClauses, whereOperators, whereValues);
     }
     
     /**
@@ -51,6 +55,14 @@ public class MainAdmin extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
+        txtFilterNameTag = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        cmbStatusHewan1 = new javax.swing.JComboBox<>();
+        jLabel13 = new javax.swing.JLabel();
+        cmbStatusHewan2 = new javax.swing.JComboBox<>();
+        jLabel14 = new javax.swing.JLabel();
+        cmbStatusHewan3 = new javax.swing.JComboBox<>();
         jButton4 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         txtUmurHewan = new javax.swing.JTextField();
@@ -176,15 +188,90 @@ public class MainAdmin extends javax.swing.JFrame {
         jPanel5.setBackground(new java.awt.Color(29, 32, 47));
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Filter", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(244, 191, 33))); // NOI18N
 
+        txtFilterNameTag.setBackground(new java.awt.Color(29, 32, 47));
+        txtFilterNameTag.setForeground(new java.awt.Color(255, 255, 255));
+        txtFilterNameTag.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
+        txtFilterNameTag.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtFilterNameTagKeyTyped(evt);
+            }
+        });
+
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText("Name Tag");
+
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("Status");
+
+        cmbStatusHewan1.setBackground(new java.awt.Color(29, 32, 47));
+        cmbStatusHewan1.setForeground(new java.awt.Color(255, 255, 255));
+        cmbStatusHewan1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbStatusHewan1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
+
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setText("Jenis");
+
+        cmbStatusHewan2.setBackground(new java.awt.Color(29, 32, 47));
+        cmbStatusHewan2.setForeground(new java.awt.Color(255, 255, 255));
+        cmbStatusHewan2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbStatusHewan2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
+
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("Ras");
+
+        cmbStatusHewan3.setBackground(new java.awt.Color(29, 32, 47));
+        cmbStatusHewan3.setForeground(new java.awt.Color(255, 255, 255));
+        cmbStatusHewan3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbStatusHewan3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmbStatusHewan1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cmbStatusHewan2, 0, 170, Short.MAX_VALUE)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cmbStatusHewan3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(txtFilterNameTag, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 112, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cmbStatusHewan3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jLabel11)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtFilterNameTag, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(9, 9, 9)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel13)
+                                    .addComponent(jLabel14))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbStatusHewan2))
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jLabel12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(cmbStatusHewan1)))))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -192,14 +279,16 @@ public class MainAdmin extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
-            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 577, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jButton4.setBackground(new java.awt.Color(244, 191, 33));
@@ -257,7 +346,7 @@ public class MainAdmin extends javax.swing.JFrame {
                             .addComponent(txtNameTag)
                             .addComponent(txtUmurHewan)
                             .addComponent(txtWarnaHewan)
-                            .addComponent(cmbStatusHewan, 0, 181, Short.MAX_VALUE)))
+                            .addComponent(cmbStatusHewan, 0, 191, Short.MAX_VALUE)))
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -270,7 +359,7 @@ public class MainAdmin extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 482, Short.MAX_VALUE)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(35, 35, 35)
@@ -413,7 +502,10 @@ public class MainAdmin extends javax.swing.JFrame {
         
         DB.DataRemove("hewan", "id", idKeyOfSelectedRow);
         
-        getData();
+        String[] whereClauses = {};
+        String[] whereValues = {};
+        String[] whereOperators = {};
+        getData(whereClauses, whereOperators, whereValues);
     }//GEN-LAST:event_jButton4MouseClicked
 
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
@@ -429,7 +521,10 @@ public class MainAdmin extends javax.swing.JFrame {
         };
         DB.DataUpdate("hewan", fields, values, "id", idKeyOfSelectedRow);
         
-        getData();
+        String[] whereClauses = {};
+        String[] whereValues = {};
+        String[] whereOperators = {};
+        getData(whereClauses, whereOperators, whereValues);
     }//GEN-LAST:event_jButton1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -459,6 +554,13 @@ public class MainAdmin extends javax.swing.JFrame {
         };
         DB.DataAdd("hewan", fields, values, idKeyOfSelectedRow);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void txtFilterNameTagKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtFilterNameTagKeyTyped
+        String[] whereClauses = {"name_tag"};
+        String[] whereValues = {"'%"+txtFilterNameTag.getText()+"%'"};
+        String[] whereOperators = {"LIKE"};
+        getData(whereClauses, whereOperators, whereValues);
+    }//GEN-LAST:event_txtFilterNameTagKeyTyped
 
     /**
      * @param args the command line arguments
@@ -497,12 +599,19 @@ public class MainAdmin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cmbStatusHewan;
+    private javax.swing.JComboBox<String> cmbStatusHewan1;
+    private javax.swing.JComboBox<String> cmbStatusHewan2;
+    private javax.swing.JComboBox<String> cmbStatusHewan3;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -519,6 +628,7 @@ public class MainAdmin extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField txtFilterNameTag;
     private javax.swing.JTextField txtJenisHewan;
     private javax.swing.JTextField txtKondisiHewan;
     private javax.swing.JTextField txtNameTag;
