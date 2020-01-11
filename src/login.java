@@ -62,6 +62,11 @@ public class login extends javax.swing.JFrame {
         username_field.setToolTipText("");
         username_field.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
         username_field.setCaretColor(new java.awt.Color(255, 255, 255));
+        username_field.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                username_fieldActionPerformed(evt);
+            }
+        });
 
         jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setLabelFor(password_field);
@@ -222,6 +227,10 @@ public class login extends javax.swing.JFrame {
         MainClient frame = new MainClient();
         frame.show();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void username_fieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_username_fieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_username_fieldActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
