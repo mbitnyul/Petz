@@ -16,7 +16,7 @@ public class DB {
     public void Connect(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con=DriverManager.getConnection("jdbc:mysql://localhost/petz_ta", "root", "");
+            con=DriverManager.getConnection("jdbc:mysql://localhost/petz_ta", "root", "bagusaditamapp");
             stmt = con.createStatement();
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, "Koneksi gagal : "+e.getMessage());
@@ -85,6 +85,49 @@ public class DB {
                 model.addRow(obj);
             }
         }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan = "+e.getMessage());
+        }
+    }
+    
+    public void DataGetQuery(javax.swing.JTable JTableName, String[] jTableColumn, String query){
+        DefaultTableModel model = new DefaultTableModel();
+        JTableName.setModel(model);
+            
+        for (String column : jTableColumn) {
+            model.addColumn(column);
+        }
+
+        model.getDataVector().removeAllElements();
+        model.fireTableDataChanged();
+        try{
+            Connect();
+            Statement stm = con.createStatement();
+            ResultSet result = stm.executeQuery(query);
+
+            while(result.next()){
+                Object[] obj = new Object[jTableColumn.length];
+                for(int i = 0; i < jTableColumn.length; i++){
+                    obj[i] = result.getString(jTableColumn[i]);
+                }
+
+                model.addRow(obj);
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan = "+e.getMessage());
+        }
+    }
+    
+    public void DataGetComboBox(javax.swing.JComboBox JComboBoxName, String column, String table){
+        try {
+            Connect();
+            String query = "SELECT "+column+" FROM "+table;
+            Statement stm = con.createStatement();
+            ResultSet result = stm.executeQuery(query);
+            
+            while(result.next()){
+                JComboBoxName.addItem(result.getString(column));
+            }
+        } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "Terjadi kesalahan = "+e.getMessage());
         }
     }

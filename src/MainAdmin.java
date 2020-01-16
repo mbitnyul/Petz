@@ -15,10 +15,13 @@ public class MainAdmin extends javax.swing.JFrame {
     
     public MainAdmin() {
         initComponents();
+        
         String[] whereClauses = {};
         String[] whereValues = {};
         String[] whereOperators = {};
         getData(whereClauses, whereOperators, whereValues);
+        
+        getDataComboBox();
     }
     
     final void getData(String[] whereClauses, String[] whereOperators, String[] whereValues){
@@ -26,6 +29,12 @@ public class MainAdmin extends javax.swing.JFrame {
         
         String[] getColumns = {"id","name_tag","status","ras"};
         DB.DataGet(jTable1, "hewan", getColumns, whereClauses, whereOperators, whereValues);
+    }
+    
+    final void getDataComboBox(){
+        DB DB = new DB();
+        
+        DB.DataGetComboBox(cmbFilterStatusHewan, "status", "status_hewan");
     }
     
     /**
@@ -58,18 +67,18 @@ public class MainAdmin extends javax.swing.JFrame {
         txtFilterNameTag = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        cmbStatusHewan1 = new javax.swing.JComboBox<>();
+        cmbFilterStatusHewan = new javax.swing.JComboBox<>();
         jLabel13 = new javax.swing.JLabel();
-        cmbStatusHewan2 = new javax.swing.JComboBox<>();
+        cmbFilterJenisHewan = new javax.swing.JComboBox<>();
         jLabel14 = new javax.swing.JLabel();
-        cmbStatusHewan3 = new javax.swing.JComboBox<>();
+        cmbFilterRasHewan = new javax.swing.JComboBox<>();
         jButton4 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         txtUmurHewan = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         txtWarnaHewan = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        cmbStatusHewan = new javax.swing.JComboBox<String>();
+        cmbStatusHewan = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
@@ -141,6 +150,8 @@ public class MainAdmin extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(29, 32, 47));
 
+        jScrollPane1.setBackground(new java.awt.Color(29, 32, 47));
+
         jTable1.setBackground(new java.awt.Color(29, 32, 47));
         jTable1.setForeground(new java.awt.Color(255, 255, 255));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -186,7 +197,7 @@ public class MainAdmin extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable1);
 
         jPanel5.setBackground(new java.awt.Color(29, 32, 47));
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Filter", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(244, 191, 33))); // NOI18N
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Filter", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(244, 191, 33))); // NOI18N
 
         txtFilterNameTag.setBackground(new java.awt.Color(29, 32, 47));
         txtFilterNameTag.setForeground(new java.awt.Color(255, 255, 255));
@@ -203,26 +214,23 @@ public class MainAdmin extends javax.swing.JFrame {
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Status");
 
-        cmbStatusHewan1.setBackground(new java.awt.Color(29, 32, 47));
-        cmbStatusHewan1.setForeground(new java.awt.Color(255, 255, 255));
-        cmbStatusHewan1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmbStatusHewan1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
+        cmbFilterStatusHewan.setBackground(new java.awt.Color(29, 32, 47));
+        cmbFilterStatusHewan.setForeground(new java.awt.Color(255, 255, 255));
+        cmbFilterStatusHewan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
 
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Jenis");
 
-        cmbStatusHewan2.setBackground(new java.awt.Color(29, 32, 47));
-        cmbStatusHewan2.setForeground(new java.awt.Color(255, 255, 255));
-        cmbStatusHewan2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmbStatusHewan2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
+        cmbFilterJenisHewan.setBackground(new java.awt.Color(29, 32, 47));
+        cmbFilterJenisHewan.setForeground(new java.awt.Color(255, 255, 255));
+        cmbFilterJenisHewan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
 
         jLabel14.setForeground(new java.awt.Color(255, 255, 255));
         jLabel14.setText("Ras");
 
-        cmbStatusHewan3.setBackground(new java.awt.Color(29, 32, 47));
-        cmbStatusHewan3.setForeground(new java.awt.Color(255, 255, 255));
-        cmbStatusHewan3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmbStatusHewan3.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
+        cmbFilterRasHewan.setBackground(new java.awt.Color(29, 32, 47));
+        cmbFilterRasHewan.setForeground(new java.awt.Color(255, 255, 255));
+        cmbFilterRasHewan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -235,14 +243,14 @@ public class MainAdmin extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cmbStatusHewan1, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cmbFilterStatusHewan, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cmbStatusHewan2, 0, 170, Short.MAX_VALUE)
+                            .addComponent(cmbFilterJenisHewan, 0, 170, Short.MAX_VALUE)
                             .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cmbStatusHewan3, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cmbFilterRasHewan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(txtFilterNameTag, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -250,12 +258,10 @@ public class MainAdmin extends javax.swing.JFrame {
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(cmbFilterRasHewan, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cmbStatusHewan3, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtFilterNameTag, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -266,11 +272,11 @@ public class MainAdmin extends javax.swing.JFrame {
                                     .addComponent(jLabel13)
                                     .addComponent(jLabel14))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbStatusHewan2))
+                                .addComponent(cmbFilterJenisHewan))
                             .addGroup(jPanel5Layout.createSequentialGroup()
                                 .addComponent(jLabel12)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cmbStatusHewan1)))))
+                                .addComponent(cmbFilterStatusHewan)))))
                 .addContainerGap())
         );
 
@@ -319,7 +325,7 @@ public class MainAdmin extends javax.swing.JFrame {
 
         cmbStatusHewan.setBackground(new java.awt.Color(29, 32, 47));
         cmbStatusHewan.setForeground(new java.awt.Color(255, 255, 255));
-        cmbStatusHewan.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cmbStatusHewan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cmbStatusHewan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -598,10 +604,10 @@ public class MainAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> cmbFilterJenisHewan;
+    private javax.swing.JComboBox<String> cmbFilterRasHewan;
+    private javax.swing.JComboBox<String> cmbFilterStatusHewan;
     private javax.swing.JComboBox<String> cmbStatusHewan;
-    private javax.swing.JComboBox<String> cmbStatusHewan1;
-    private javax.swing.JComboBox<String> cmbStatusHewan2;
-    private javax.swing.JComboBox<String> cmbStatusHewan3;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
