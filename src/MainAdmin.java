@@ -1,3 +1,4 @@
+import Singleton.loginSingleton;
 import java.sql.*;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
@@ -13,7 +14,7 @@ public class MainAdmin extends javax.swing.JFrame {
     int idSelectedRow;
     String idKeyOfSelectedRow;
     
-    public MainAdmin() {
+    public MainAdmin(String loginUsername, String loginPassword, String loginNama) {
         initComponents();
         
         String[] whereClauses = {};
@@ -22,6 +23,10 @@ public class MainAdmin extends javax.swing.JFrame {
         getData(whereClauses, whereOperators, whereValues);
         
         getDataComboBox();
+        
+        LoginSingletonUsername.setText(loginUsername);
+        LoginSingletonPassword.setText(loginPassword);
+        LoginSingletonNama.setText(loginNama);
     }
     
     final void getData(String[] whereClauses, String[] whereOperators, String[] whereValues){
@@ -86,9 +91,9 @@ public class MainAdmin extends javax.swing.JFrame {
         cmbStatusHewan = new javax.swing.JComboBox<>();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        LoginSingletonPassword = new javax.swing.JTextField();
+        LoginSingletonUsername = new javax.swing.JTextField();
+        LoginSingletonNama = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
@@ -431,27 +436,27 @@ public class MainAdmin extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("UBAH DATA ADMIN");
 
-        jTextField1.setBackground(new java.awt.Color(29, 32, 47));
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(244, 191, 33)));
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        LoginSingletonPassword.setBackground(new java.awt.Color(29, 32, 47));
+        LoginSingletonPassword.setForeground(new java.awt.Color(255, 255, 255));
+        LoginSingletonPassword.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(244, 191, 33)));
+        LoginSingletonPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                LoginSingletonPasswordActionPerformed(evt);
             }
         });
 
-        jTextField2.setBackground(new java.awt.Color(29, 32, 47));
-        jTextField2.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(244, 191, 33)));
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        LoginSingletonUsername.setBackground(new java.awt.Color(29, 32, 47));
+        LoginSingletonUsername.setForeground(new java.awt.Color(255, 255, 255));
+        LoginSingletonUsername.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(244, 191, 33)));
+        LoginSingletonUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                LoginSingletonUsernameActionPerformed(evt);
             }
         });
 
-        jTextField3.setBackground(new java.awt.Color(29, 32, 47));
-        jTextField3.setForeground(new java.awt.Color(255, 255, 255));
-        jTextField3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(244, 191, 33)));
+        LoginSingletonNama.setBackground(new java.awt.Color(29, 32, 47));
+        LoginSingletonNama.setForeground(new java.awt.Color(255, 255, 255));
+        LoginSingletonNama.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(244, 191, 33)));
 
         jLabel15.setForeground(new java.awt.Color(255, 255, 255));
         jLabel15.setText("Username");
@@ -493,18 +498,18 @@ public class MainAdmin extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel16)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(LoginSingletonPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel17)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel15)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(LoginSingletonNama, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
-                                .addGap(0, 0, Short.MAX_VALUE)))
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel15)
+                                .addGap(53, 53, 53)
+                                .addComponent(LoginSingletonUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(588, 588, 588))))
         );
         jPanel4Layout.setVerticalGroup(
@@ -517,17 +522,17 @@ public class MainAdmin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel15))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel15)
+                    .addComponent(LoginSingletonUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel16)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(LoginSingletonPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel17)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(LoginSingletonNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(53, 53, 53)
                 .addComponent(jButton6)
                 .addContainerGap(194, Short.MAX_VALUE))
@@ -674,13 +679,13 @@ public class MainAdmin extends javax.swing.JFrame {
         getData(whereClauses, whereOperators, whereValues);
     }//GEN-LAST:event_txtFilterNameTagKeyTyped
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void LoginSingletonUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginSingletonUsernameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_LoginSingletonUsernameActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void LoginSingletonPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginSingletonPasswordActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_LoginSingletonPasswordActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         
@@ -720,12 +725,15 @@ public class MainAdmin extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainAdmin().setVisible(true);
+                new MainAdmin("","","").setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField LoginSingletonNama;
+    private javax.swing.JTextField LoginSingletonPassword;
+    private javax.swing.JTextField LoginSingletonUsername;
     private javax.swing.JComboBox<String> cmbFilterJenisHewan;
     private javax.swing.JComboBox<String> cmbFilterRasHewan;
     private javax.swing.JComboBox<String> cmbFilterStatusHewan;
@@ -762,9 +770,6 @@ public class MainAdmin extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField txtFilterNameTag;
     private javax.swing.JTextField txtJenisHewan;
     private javax.swing.JTextField txtKondisiHewan;

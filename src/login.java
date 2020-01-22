@@ -1,3 +1,4 @@
+import Singleton.loginSingleton;
 import java.awt.HeadlessException;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -189,21 +190,21 @@ public class login extends javax.swing.JFrame {
                     switch (rs.getString("akses")) {
                         case "1":
                             {
-                                MainOwner form = new MainOwner();
+                                MainOwner form = new MainOwner(rs.getString("username"), rs.getString("password"), rs.getString("nama"));
                                 form.show();
                                 this.dispose();
                                 break;
                             }
                         case "2":
                             {
-                                MainAdmin form = new MainAdmin();
+                                MainAdmin form = new MainAdmin(rs.getString("username"), rs.getString("password"), rs.getString("nama"));
                                 form.show();
                                 this.dispose();
                                 break;
                             }
                         case "3":
                             {
-                                MainAdmin form = new MainAdmin();
+                                MainAdmin form = new MainAdmin(rs.getString("username"), rs.getString("password"), rs.getString("nama"));
                                 form.show();
                                 this.dispose();
                                 break;
@@ -211,7 +212,6 @@ public class login extends javax.swing.JFrame {
                         default:
                             break;
                     }
-                    System.out.println("hi");
                 }
                 con.close();
                 stat.close();
