@@ -29,8 +29,12 @@ public class MainOwner extends javax.swing.JFrame {
     final void getData(){
         DB DB = new DB();
         
-        String[] getColumns = {"id", "name_tag", "status"};
-        String query = "SELECT hewan.id, hewan.name_tag, status_hewan.status FROM hewan INNER JOIN status_hewan ON hewan.status = status_hewan.id_status";
+        String[] getColumns = {"id", "name_tag", "nama_jenis", "nama_ras", "status", "keterangan"};
+        String query = "SELECT id, name_tag, jenis.nama_jenis, ras.nama_ras, "
+                + "status_hewan.status, keterangan FROM hewan "
+                + "INNER JOIN status_hewan ON hewan.status = status_hewan.id_status "
+                + "INNER JOIN ras ON hewan.ras = ras.id_ras "
+                + "INNER JOIN jenis ON ras.jenis = jenis.id_jenis";
         DB.DataGetQuery(jTable2, getColumns, query);
     }
     
@@ -453,8 +457,8 @@ public class MainOwner extends javax.swing.JFrame {
                 + "INNER JOIN ras ON hewan.ras = ras.id_ras "
                 + "INNER JOIN jenis ON ras.jenis = jenis.id_jenis "
                 + "WHERE hewan.status = "+(cmbStatusHewan7.getSelectedIndex()+1)+" AND "
-                + "ras.nama_ras = "+(cmbRasHewan.getSelectedIndex()+1)+" AND "
-                + "jenis.nama_jenis = "+(cmbJenisHewan.getSelectedIndex()+1);
+                + "ras.id_ras = "+(cmbRasHewan.getSelectedIndex()+1)+" AND "
+                + "jenis.id_jenis = "+(cmbJenisHewan.getSelectedIndex()+1);
         DB.DataGetQuery(jTable2, getColumns, query);
     }//GEN-LAST:event_jButton4ActionPerformed
 
