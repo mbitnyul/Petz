@@ -29,3 +29,4 @@ nbproject/
 build.xml
 
 src/sql/DB.java
+/dist/

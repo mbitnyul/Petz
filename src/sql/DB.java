@@ -16,7 +16,7 @@ public class DB {
     public void Connect(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con=DriverManager.getConnection("jdbc:mysql://localhost/petz_ta", "root", "bagusaditamapp");
+            con=DriverManager.getConnection("jdbc:mysql://localhost/petz_ta", "root", "");
             stmt = con.createStatement();
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, "Koneksi gagal : "+e.getMessage());
