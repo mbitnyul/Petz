@@ -204,7 +204,7 @@ public class login extends javax.swing.JFrame {
                             }
                         case "3":
                             {
-                                MainAdmin form = new MainAdmin(rs.getString("username"), rs.getString("password"), rs.getString("nama"));
+                                MainCostumerService form = new MainCostumerService(rs.getString("username"), rs.getString("password"), rs.getString("nama"));
                                 form.show();
                                 this.dispose();
                                 break;

@@ -14,6 +14,7 @@ public class MainAdmin extends javax.swing.JFrame {
     int idSelectedRow;
     String idKeyOfSelectedRow;
     String idKeyOfSelectedRow_tblKarantina;
+    String idKeyOfSelectedRow_tblAdopt;
     String loginUsername;
     
     public MainAdmin(String loginUsername, String loginPassword, String loginNama) {
@@ -22,7 +23,7 @@ public class MainAdmin extends javax.swing.JFrame {
         String[] whereClauses = {};
         String[] whereValues = {};
         String[] whereOperators = {};
-        getData(whereClauses, whereOperators, whereValues);
+        getData();
         
         getDataComboBox();
         
@@ -32,13 +33,19 @@ public class MainAdmin extends javax.swing.JFrame {
         txtEditNama.setText(loginNama);
         
         getDataHewanKarantinaDanReadyAdopt();
+        
+        getDataAdoptHewan();
     }
     
-    final void getData(String[] whereClauses, String[] whereOperators, String[] whereValues){
+    final void getData(){
         DB DB = new DB();
         
-        String[] getColumns = {"id","name_tag","status","ras"};
-        DB.DataGet(jTable1, "hewan", getColumns, whereClauses, whereOperators, whereValues);
+        String[] getColumns = {"id", "name_tag", "status"};
+        String query = "SELECT hewan.id, hewan.name_tag, status_hewan.status "
+                + "FROM hewan INNER JOIN status_hewan ON hewan.status = status_hewan.id_status "
+                + "INNER JOIN ras ON hewan.ras = ras.id_ras "
+                + "INNER JOIN jenis ON ras.jenis = jenis.id_jenis";
+        DB.DataGetQuery(jTable1, getColumns, query);
     }
     
     final void getDataHewanKarantinaDanReadyAdopt(){
@@ -59,6 +66,18 @@ public class MainAdmin extends javax.swing.JFrame {
                 + "INNER JOIN jenis ON ras.jenis = jenis.id_jenis "
                 + "WHERE hewan.status = 4";
         DB.DataGetQuery(tblReadyAdopt, getColumns2, query2);
+    }
+    
+    final void getDataAdoptHewan(){
+        DB DB = new DB();
+        
+        String[] getColumns = {"id", "name_tag", "nama_jenis", "nama_ras"};
+        String query = "SELECT id, name_tag, jenis.nama_jenis, ras.nama_ras "
+                + "FROM hewan INNER JOIN status_hewan ON hewan.status = status_hewan.id_status "
+                + "INNER JOIN ras ON hewan.ras = ras.id_ras "
+                + "INNER JOIN jenis ON ras.jenis = jenis.id_jenis "
+                + "WHERE hewan.status = 4";
+        DB.DataGetQuery(tblAdopt, getColumns, query);
     }
     
     final void getDataComboBox(){
@@ -84,19 +103,6 @@ public class MainAdmin extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jTabbedPane2 = new javax.swing.JTabbedPane();
         jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        txtJenisHewan = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        txtKondisiHewan = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        txtRasHewan = new javax.swing.JTextField();
-        txtNameTag = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jPanel5 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         cmbFilterStatusHewan = new javax.swing.JComboBox<>();
@@ -105,13 +111,8 @@ public class MainAdmin extends javax.swing.JFrame {
         jLabel14 = new javax.swing.JLabel();
         cmbFilterRasHewan = new javax.swing.JComboBox<>();
         jButton5 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        txtUmurHewan = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        txtWarnaHewan = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
-        cmbStatusHewan = new javax.swing.JComboBox<>();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
@@ -123,6 +124,17 @@ public class MainAdmin extends javax.swing.JFrame {
         txtEditNama = new javax.swing.JTextField();
         jButton6 = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
+        jPanel11 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblAdopt = new javax.swing.JTable();
+        jPanel12 = new javax.swing.JPanel();
+        txtAdoptNama = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        txtAdoptAlamat = new javax.swing.JTextField();
+        jLabel19 = new javax.swing.JLabel();
+        txtAdoptHp = new javax.swing.JTextField();
+        jButton7 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jPanel9 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -131,6 +143,7 @@ public class MainAdmin extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tblReadyAdopt = new javax.swing.JTable();
         jButton3 = new javax.swing.JButton();
+        txtKarantinaKeReadyAdopt_Keterangan = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
 
@@ -143,53 +156,36 @@ public class MainAdmin extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(29, 32, 47));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("DATA HEWAN");
+        jPanel5.setBackground(new java.awt.Color(29, 32, 47));
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Filter", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(244, 191, 33))); // NOI18N
 
-        txtJenisHewan.setBackground(new java.awt.Color(29, 32, 47));
-        txtJenisHewan.setForeground(new java.awt.Color(255, 255, 255));
-        txtJenisHewan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("Status");
 
-        jButton1.setBackground(new java.awt.Color(244, 191, 33));
-        jButton1.setText("Edit Data");
-        jButton1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
-            }
-        });
+        cmbFilterStatusHewan.setBackground(new java.awt.Color(29, 32, 47));
+        cmbFilterStatusHewan.setForeground(new java.awt.Color(255, 255, 255));
+        cmbFilterStatusHewan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
 
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Jenis Hewan");
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setText("Jenis");
 
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Ras Hewan");
+        cmbFilterJenisHewan.setBackground(new java.awt.Color(29, 32, 47));
+        cmbFilterJenisHewan.setForeground(new java.awt.Color(255, 255, 255));
+        cmbFilterJenisHewan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
 
-        txtKondisiHewan.setBackground(new java.awt.Color(29, 32, 47));
-        txtKondisiHewan.setForeground(new java.awt.Color(255, 255, 255));
-        txtKondisiHewan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("Ras");
 
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Name tag");
+        cmbFilterRasHewan.setBackground(new java.awt.Color(29, 32, 47));
+        cmbFilterRasHewan.setForeground(new java.awt.Color(255, 255, 255));
+        cmbFilterRasHewan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
 
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Kondisi");
-
-        txtRasHewan.setBackground(new java.awt.Color(29, 32, 47));
-        txtRasHewan.setForeground(new java.awt.Color(255, 255, 255));
-        txtRasHewan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
-        txtRasHewan.addActionListener(new java.awt.event.ActionListener() {
+        jButton5.setText("OK");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtRasHewanActionPerformed(evt);
+                jButton5ActionPerformed(evt);
             }
         });
-
-        txtNameTag.setBackground(new java.awt.Color(29, 32, 47));
-        txtNameTag.setForeground(new java.awt.Color(255, 255, 255));
-        txtNameTag.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
-
-        jPanel2.setBackground(new java.awt.Color(29, 32, 47));
 
         jScrollPane1.setBackground(new java.awt.Color(29, 32, 47));
 
@@ -240,76 +236,27 @@ public class MainAdmin extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(jTable1);
 
-        jPanel5.setBackground(new java.awt.Color(29, 32, 47));
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Filter", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(244, 191, 33))); // NOI18N
-
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("Status");
-
-        cmbFilterStatusHewan.setBackground(new java.awt.Color(29, 32, 47));
-        cmbFilterStatusHewan.setForeground(new java.awt.Color(255, 255, 255));
-        cmbFilterStatusHewan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
-        cmbFilterStatusHewan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbFilterStatusHewanActionPerformed(evt);
-            }
-        });
-
-        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("Jenis");
-
-        cmbFilterJenisHewan.setBackground(new java.awt.Color(29, 32, 47));
-        cmbFilterJenisHewan.setForeground(new java.awt.Color(255, 255, 255));
-        cmbFilterJenisHewan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
-        cmbFilterJenisHewan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbFilterJenisHewanActionPerformed(evt);
-            }
-        });
-
-        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel14.setText("Ras");
-
-        cmbFilterRasHewan.setBackground(new java.awt.Color(29, 32, 47));
-        cmbFilterRasHewan.setForeground(new java.awt.Color(255, 255, 255));
-        cmbFilterRasHewan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
-        cmbFilterRasHewan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cmbFilterRasHewanActionPerformed(evt);
-            }
-        });
-
-        jButton5.setText("OK");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jButton5)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel5Layout.createSequentialGroup()
-                                .addComponent(cmbFilterStatusHewan, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33)
-                                .addComponent(cmbFilterJenisHewan, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cmbFilterRasHewan, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cmbFilterStatusHewan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cmbFilterJenisHewan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cmbFilterRasHewan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton5)
+                .addGap(0, 80, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -323,131 +270,27 @@ public class MainAdmin extends javax.swing.JFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cmbFilterStatusHewan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbFilterJenisHewan)
-                    .addComponent(cmbFilterRasHewan))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cmbFilterRasHewan)
+                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 321, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 371, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
-
-        jButton4.setBackground(new java.awt.Color(244, 191, 33));
-        jButton4.setText("Hapus Data");
-        jButton4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 255, 255), 1, true));
-        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton4MouseClicked(evt);
-            }
-        });
-
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Umur");
-
-        txtUmurHewan.setBackground(new java.awt.Color(29, 32, 47));
-        txtUmurHewan.setForeground(new java.awt.Color(255, 255, 255));
-        txtUmurHewan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
-
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Warna");
-
-        txtWarnaHewan.setBackground(new java.awt.Color(29, 32, 47));
-        txtWarnaHewan.setForeground(new java.awt.Color(255, 255, 255));
-        txtWarnaHewan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
-
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("Status");
-
-        cmbStatusHewan.setBackground(new java.awt.Color(29, 32, 47));
-        cmbStatusHewan.setForeground(new java.awt.Color(255, 255, 255));
-        cmbStatusHewan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmbStatusHewan.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtKondisiHewan)
-                            .addComponent(txtJenisHewan)
-                            .addComponent(txtRasHewan, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(txtNameTag)
-                            .addComponent(txtUmurHewan)
-                            .addComponent(txtWarnaHewan)
-                            .addComponent(cmbStatusHewan, 0, 203, Short.MAX_VALUE)))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap(111, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(131, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(35, 35, 35)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(txtNameTag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtJenisHewan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(txtRasHewan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(txtKondisiHewan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(txtUmurHewan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(txtWarnaHewan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(6, 6, 6)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(cmbStatusHewan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addContainerGap(29, Short.MAX_VALUE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Data Hewan", jPanel3);
@@ -552,31 +395,163 @@ public class MainAdmin extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jLabel2))
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap(265, Short.MAX_VALUE)
+                        .addContainerGap(260, Short.MAX_VALUE)
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(281, Short.MAX_VALUE))
+                .addContainerGap(284, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 140, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 130, Short.MAX_VALUE)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(212, Short.MAX_VALUE))
+                .addContainerGap(196, Short.MAX_VALUE))
         );
 
         jTabbedPane2.addTab("Edit Akun", jPanel4);
+
+        jPanel7.setBackground(new java.awt.Color(29, 32, 47));
+
+        jPanel11.setBackground(new java.awt.Color(29, 32, 47));
+        jPanel11.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 4, true), "Pilih Hewan", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(255, 255, 255))); // NOI18N
+
+        tblAdopt.setBackground(new java.awt.Color(29, 32, 47));
+        tblAdopt.setForeground(new java.awt.Color(255, 255, 255));
+        tblAdopt.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tblAdopt.setGridColor(new java.awt.Color(244, 191, 33));
+        tblAdopt.setSelectionBackground(new java.awt.Color(244, 191, 33));
+        tblAdopt.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblAdoptMouseClicked(evt);
+            }
+        });
+        jScrollPane4.setViewportView(tblAdopt);
+
+        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+        jPanel11.setLayout(jPanel11Layout);
+        jPanel11Layout.setHorizontalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel11Layout.setVerticalGroup(
+            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 441, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jPanel12.setBackground(new java.awt.Color(29, 32, 47));
+        jPanel12.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 4, true), "Form Adopter", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(255, 255, 255))); // NOI18N
+
+        txtAdoptNama.setBackground(new java.awt.Color(29, 32, 47));
+        txtAdoptNama.setForeground(new java.awt.Color(255, 255, 255));
+        txtAdoptNama.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
+        txtAdoptNama.setCaretColor(new java.awt.Color(244, 191, 33));
+
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText("Nama");
+
+        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel18.setText("Alamat");
+
+        txtAdoptAlamat.setBackground(new java.awt.Color(29, 32, 47));
+        txtAdoptAlamat.setForeground(new java.awt.Color(255, 255, 255));
+        txtAdoptAlamat.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
+        txtAdoptAlamat.setCaretColor(new java.awt.Color(244, 191, 33));
+
+        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel19.setText("HP");
+
+        txtAdoptHp.setBackground(new java.awt.Color(29, 32, 47));
+        txtAdoptHp.setForeground(new java.awt.Color(255, 255, 255));
+        txtAdoptHp.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true));
+        txtAdoptHp.setCaretColor(new java.awt.Color(244, 191, 33));
+
+        jButton7.setBackground(new java.awt.Color(244, 191, 33));
+        jButton7.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jButton7.setForeground(new java.awt.Color(0, 0, 0));
+        jButton7.setText("Proses");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel12Layout.createSequentialGroup()
+                        .addGap(0, 199, Short.MAX_VALUE)
+                        .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtAdoptNama, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtAdoptAlamat, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel12Layout.createSequentialGroup()
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel18)
+                            .addComponent(jLabel19))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(txtAdoptHp, javax.swing.GroupLayout.Alignment.LEADING))
+                .addContainerGap())
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAdoptNama, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAdoptAlamat, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel19)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtAdoptHp, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 916, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel11, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 540, Short.MAX_VALUE)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jTabbedPane2.addTab("Adopt Hewan", jPanel7);
@@ -615,7 +590,7 @@ public class MainAdmin extends javax.swing.JFrame {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 852, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 850, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -672,17 +647,24 @@ public class MainAdmin extends javax.swing.JFrame {
             }
         });
 
+        txtKarantinaKeReadyAdopt_Keterangan.setBackground(new java.awt.Color(29, 32, 47));
+        txtKarantinaKeReadyAdopt_Keterangan.setForeground(new java.awt.Color(255, 255, 255));
+        txtKarantinaKeReadyAdopt_Keterangan.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.LineBorder(new java.awt.Color(244, 191, 33), 1, true), "Kondisi / Keterangan", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Dialog", 1, 12), new java.awt.Color(255, 255, 255))); // NOI18N
+        txtKarantinaKeReadyAdopt_Keterangan.setCaretColor(new java.awt.Color(244, 191, 33));
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtKarantinaKeReadyAdopt_Keterangan, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -693,7 +675,9 @@ public class MainAdmin extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtKarantinaKeReadyAdopt_Keterangan))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -753,54 +737,6 @@ public class MainAdmin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtRasHewanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRasHewanActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtRasHewanActionPerformed
-
-    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-        DB DB = new DB();
-        
-        String[] getColumns = {"name_tag","ras","umur","warna","keterangan"};
-        String[] values = DB.TableClick(jTable1, "hewan", "id", getColumns);
-        idSelectedRow = jTable1.getSelectedRow();
-        idKeyOfSelectedRow = (String) jTable1.getModel().getValueAt(idSelectedRow, 0);
-        txtNameTag.setText(values[0]);
-        txtRasHewan.setText(values[1]);
-        txtUmurHewan.setText(values[2]);
-        txtWarnaHewan.setText(values[3]);
-        txtKondisiHewan.setText(values[4]);
-    }//GEN-LAST:event_jTable1MouseClicked
-
-    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
-        DB DB = new DB();
-        
-        DB.DataRemove("hewan", "id", idKeyOfSelectedRow);
-        
-        String[] whereClauses = {};
-        String[] whereValues = {};
-        String[] whereOperators = {};
-        getData(whereClauses, whereOperators, whereValues);
-    }//GEN-LAST:event_jButton4MouseClicked
-
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        DB DB = new DB();
-        
-        String[] fields = {"name_tag","ras","umur","warna","keterangan"};
-        String[] values = {
-            "'"+txtNameTag.getText()+"'",
-            txtRasHewan.getText(),
-            txtUmurHewan.getText(),
-            txtWarnaHewan.getText(),
-            "'"+txtKondisiHewan.getText()+"'"
-        };
-        DB.DataUpdate("hewan", fields, values, "id", idKeyOfSelectedRow, true);
-        
-        String[] whereClauses = {};
-        String[] whereValues = {};
-        String[] whereOperators = {};
-        getData(whereClauses, whereOperators, whereValues);
-    }//GEN-LAST:event_jButton1MouseClicked
-
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();
         login frame = new login();
@@ -815,40 +751,16 @@ public class MainAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtEditPasswordActionPerformed
 
-    private void cmbFilterStatusHewanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFilterStatusHewanActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbFilterStatusHewanActionPerformed
-
-    private void cmbFilterJenisHewanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFilterJenisHewanActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbFilterJenisHewanActionPerformed
-
-    private void cmbFilterRasHewanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbFilterRasHewanActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cmbFilterRasHewanActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        DB DB = new DB();
-        
-        String[] getColumns = {"id", "name_tag", "status"};
-        String query = "SELECT hewan.id, hewan.name_tag, status_hewan.status "
-                + "FROM hewan INNER JOIN status_hewan ON hewan.status = status_hewan.id_status "
-                + "INNER JOIN ras ON hewan.ras = ras.id_ras "
-                + "INNER JOIN jenis ON ras.jenis = jenis.id_jenis "
-                + "WHERE hewan.status = "+(cmbFilterStatusHewan.getSelectedIndex()+1)+" AND "
-                + "ras.id_ras = "+(cmbFilterJenisHewan.getSelectedIndex()+1)+" AND "
-                + "jenis.id_jenis = "+(cmbFilterRasHewan.getSelectedIndex()+1);
-        DB.DataGetQuery(jTable1, getColumns, query);
-    }//GEN-LAST:event_jButton5ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         DB DB = new DB();
         
-        String[] fields = {"status"};
-        String[] values = {"4"};
+        String[] fields = {"status", "keterangan"};
+        String[] values = {"4", "'"+txtKarantinaKeReadyAdopt_Keterangan.getText()+"'"};
         DB.DataUpdate("hewan", fields, values, "id", idKeyOfSelectedRow_tblKarantina, false);
         
         getDataHewanKarantinaDanReadyAdopt();
+        
+        getDataAdoptHewan();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void tblKarantinaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKarantinaMouseClicked
@@ -867,6 +779,60 @@ public class MainAdmin extends javax.swing.JFrame {
         };
         DB.DataUpdate("login", fields, values, "username", loginUsername, true);
     }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        DB DB = new DB();
+        
+        String[] fields = {"hewan", "nama_adopter", "alamat_adopter", "hp_adopter"};
+        String[] values = {
+            idKeyOfSelectedRow_tblAdopt,
+            "'"+txtAdoptNama.getText()+"'",
+            "'"+txtAdoptAlamat.getText()+"'",
+            "'"+txtAdoptHp.getText()+"'"
+        };
+        DB.DataAdd("adopsi", fields, values, "Adopsi Selesai.");
+        
+        String[] fields2 = {"status"};
+        String[] values2 = {
+            "5"
+        };
+        DB.DataUpdate("hewan", fields2, values2, "id", idKeyOfSelectedRow_tblAdopt, false);
+        
+        getDataAdoptHewan();
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void tblAdoptMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAdoptMouseClicked
+        idSelectedRow = tblAdopt.getSelectedRow();
+        idKeyOfSelectedRow_tblAdopt = (String) tblAdopt.getModel().getValueAt(idSelectedRow, 0);
+    }//GEN-LAST:event_tblAdoptMouseClicked
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        DB DB = new DB();
+
+        String[] getColumns = {"id", "name_tag", "status"};
+        String query = "SELECT hewan.id, hewan.name_tag, status_hewan.status "
+        + "FROM hewan INNER JOIN status_hewan ON hewan.status = status_hewan.id_status "
+        + "INNER JOIN ras ON hewan.ras = ras.id_ras "
+        + "INNER JOIN jenis ON ras.jenis = jenis.id_jenis "
+        + "WHERE hewan.status = "+(cmbFilterStatusHewan.getSelectedIndex()+1)+" AND "
+        + "ras.id_ras = "+(cmbFilterJenisHewan.getSelectedIndex()+1)+" AND "
+        + "jenis.id_jenis = "+(cmbFilterRasHewan.getSelectedIndex()+1);
+        DB.DataGetQuery(jTable1, getColumns, query);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+//        DB DB = new DB();
+//
+//        String[] getColumns = {"name_tag","ras","umur","warna","keterangan"};
+//        String[] values = DB.TableClick(jTable1, "hewan", "id", getColumns);
+//        idSelectedRow = jTable1.getSelectedRow();
+//        idKeyOfSelectedRow = (String) jTable1.getModel().getValueAt(idSelectedRow, 0);
+//        txtNameTag.setText(values[0]);
+//        txtRasHewan.setText(values[1]);
+//        txtUmurHewan.setText(values[2]);
+//        txtWarnaHewan.setText(values[3]);
+//        txtKondisiHewan.setText(values[4]);
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -907,32 +873,26 @@ public class MainAdmin extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbFilterJenisHewan;
     private javax.swing.JComboBox<String> cmbFilterRasHewan;
     private javax.swing.JComboBox<String> cmbFilterStatusHewan;
-    private javax.swing.JComboBox<String> cmbStatusHewan;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -943,18 +903,18 @@ public class MainAdmin extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTable tblAdopt;
     private javax.swing.JTable tblKarantina;
     private javax.swing.JTable tblReadyAdopt;
+    private javax.swing.JTextField txtAdoptAlamat;
+    private javax.swing.JTextField txtAdoptHp;
+    private javax.swing.JTextField txtAdoptNama;
     private javax.swing.JTextField txtEditNama;
     private javax.swing.JTextField txtEditPassword;
     private javax.swing.JTextField txtEditUsername;
-    private javax.swing.JTextField txtJenisHewan;
-    private javax.swing.JTextField txtKondisiHewan;
-    private javax.swing.JTextField txtNameTag;
-    private javax.swing.JTextField txtRasHewan;
-    private javax.swing.JTextField txtUmurHewan;
-    private javax.swing.JTextField txtWarnaHewan;
+    private javax.swing.JTextField txtKarantinaKeReadyAdopt_Keterangan;
     // End of variables declaration//GEN-END:variables
 }

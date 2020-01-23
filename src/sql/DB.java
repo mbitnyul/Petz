@@ -143,7 +143,6 @@ public class DB {
                     else query += fields[i]+" = "+values[i];
                 }
                 String where = " WHERE "+whereClause+" = '"+whereValue+"'";
-                System.out.println(query+where);
                 try (PreparedStatement p_stm = (PreparedStatement)con.prepareStatement(query+where)) {
                     p_stm.executeUpdate();
                 }
@@ -181,6 +180,33 @@ public class DB {
             String id = (String) JTableName.getModel().getValueAt(i,0);
         
             String query = "SELECT * FROM "+table+" WHERE "+whereClause+" = "+id+"";
+            Statement stm = con.createStatement();
+            ResultSet result = stm.executeQuery(query);
+            
+            if (result.next()) {
+                String[] resultArray = new String[getColumns.length];
+                for(int j = 0; j < getColumns.length; j++){
+                    resultArray[j] = result.getString(getColumns[j]);
+                }
+                
+                return resultArray;
+            }else{
+                JOptionPane.showMessageDialog(null, "Data tidak ada.");
+            }
+        }catch(SQLException e){
+            JOptionPane.showMessageDialog(null, "Terjadi kesalahan = "+e);
+        }
+        return null;
+    }
+    
+    public String[] TableClickQuery(javax.swing.JTable JTableName, String query, String[] getColumns){
+        int i = JTableName.getSelectedRow();
+        
+        try{
+            Connect();
+            
+            String id = (String) JTableName.getModel().getValueAt(i,0);
+        
             Statement stm = con.createStatement();
             ResultSet result = stm.executeQuery(query);
             
