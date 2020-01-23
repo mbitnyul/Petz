@@ -16,7 +16,7 @@ public class DB {
     public void Connect(){
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            con=DriverManager.getConnection("jdbc:mysql://localhost/petz_ta", "root", "");
+            con=DriverManager.getConnection("jdbc:mysql://localhost/petz_ta", "root", "bagusaditamapp");
             stmt = con.createStatement();
         } catch (ClassNotFoundException | SQLException e) {
             JOptionPane.showMessageDialog(null, "Koneksi gagal : "+e.getMessage());
@@ -132,7 +132,7 @@ public class DB {
         }
     }
     
-    public void DataUpdate(String table, String[] fields, String[] values, String whereClause, String whereValue){
+    public void DataUpdate(String table, String[] fields, String[] values, String whereClause, String whereValue, boolean withMessage){
         if(fields.length == values.length){
             try {
                 Connect();
@@ -148,7 +148,9 @@ public class DB {
                     p_stm.executeUpdate();
                 }
 
-                JOptionPane.showMessageDialog(null, "Data berhasil diubah.");
+                if(withMessage){
+                    JOptionPane.showMessageDialog(null, "Data berhasil diubah.");
+                }
             } catch (HeadlessException | SQLException e) {
                 JOptionPane.showMessageDialog(null, "Terjadi kesalahan = "+e.getMessage()+", "+e);
             }
